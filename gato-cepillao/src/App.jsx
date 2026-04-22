@@ -8,7 +8,7 @@ export default function App() {
   const [pantalla, setPantala] = useState("Nombre")
   const [namePlayer, setNamePlayer] = useState("")
   const [puntuacion, setPuntuacion] = useState(0)
-  const [skinActiva, setSkinActiva] = useState("Default")
+  const [skinActiva, setSkinActiva] = useState("default")
 
   return (
     <div>
@@ -19,21 +19,23 @@ export default function App() {
           <p>Acaricia al gato a escondidas sin que te atrapen</p>
           <p>¿Lo lograras?</p>
           <input type="text" placeholder="Nombre" maxLength={10} value={namePlayer} onChange={(e) => setNamePlayer(e.target.value)}/>
+          <button onClick={() => namePlayer.trim() && setPantala("Juego")}>Jugar</button>
           <button onClick={() => setPantala("Ranking")}>Ver ranking</button>
+          </div>
+          )}
 
-          {/* Pantalla 2 - Juego */}
-          {pantalla === "juego" && (
-        <Game nombre={nombreJugador} skinActiva={skinActiva} onGameOver={(pts) => { setPuntuacion(pts) 
-          setPantalla("gameover")}}
-        />
-      )}
+{/* Pantalla 2 - Juego */}
+          {pantalla === "Juego" && (
+        <Game nombre={namePlayer} skinActiva={skinActiva} onGameOver={(pts) => { setPuntuacion(pts) 
+          setPantala("Gameover")}}
+        /> )}
 
       {/* PANTALLA 3 - Gameover */}
-      {pantalla === "gAME oVER" && (
+      {pantalla === "Gameover" && (
         <GameOver nombre={namePlayer} puntuacion={puntuacion} skinActiva={skinActiva} 
-        onReintentar={() => setPantala("juego")}
-        onRanking={() => setPantala("ranking")}
-        onSkins={() => setPantala("skins")}/>
+        onReintentar={() => setPantala("Juego")}
+        onRanking={() => setPantala("Ranking")}
+        onSkins={() => setPantala("Skins")}/>
       )}
 
       {/* pantalla 4 - Ranking */}
@@ -43,12 +45,9 @@ export default function App() {
 
       {/* Pantalla 5 - Skins */}
       {pantalla === "Skins" && (
-        <SkinPanel puntuacion={puntuacion} skinActiva={skinActiva} onChangeSkin={setSkinActiva} onVolver={() => setPantala("Game over papu")}></SkinPanel>
+        <SkinPanel puntuacion={puntuacion} skinActiva={skinActiva} onChangeSkin={setSkinActiva} onVolver={() => setPantala("Gameover")}></SkinPanel>
       )}
-        </div>
-      )}
-      
-
+  
     </div>
   )
 }
