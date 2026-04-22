@@ -3,6 +3,8 @@ import Game from "./components/Game"
 import GameOver from "./components/GameOver"
 import Ranking from "./components/Ranking"
 import SkinPanel from "./components/SkinPanel"
+import SkinGaleria from "./components/SkinGaleria"
+import SkinUpload from "./components/SkinUpload";
 
 export default function App() {
   const [pantalla, setPantala] = useState("Nombre")
@@ -45,9 +47,23 @@ export default function App() {
 
       {/* Pantalla 5 - Skins */}
       {pantalla === "Skins" && (
-        <SkinPanel puntuacion={puntuacion} skinActiva={skinActiva} onChangeSkin={setSkinActiva} onVolver={() => setPantala("Gameover")}></SkinPanel>
+        <SkinPanel 
+        puntuacion={puntuacion} 
+        skinActiva={skinActiva} 
+        onChangeSkin={setSkinActiva} 
+        onVolver={() => setPantala("Gameover")}
+        onGaleria={() => setPantala("Galeria")}
+        onSubir={() => setPantala("Subir")}
+        ></SkinPanel>
       )}
-  
+      {pantalla === "Galeria" && (
+        <SkinGaleria onVolver={() => setPantala("Skins")} onUsarSkin={setSkinActiva}/>
+      )}
+
+      {pantalla === "Subir" && (
+        <SkinGaleria onVolver={() => setPantala("Skins")}/>
+      )}
+
     </div>
   )
 }
