@@ -1,13 +1,16 @@
+import { useEffect, useState } from "react"
+
 export default function Ranking ({ onVolver}) {
-    const prueba = [
-        {nombre:"pepe", puntuacion:50},
-        {nombre:"pelado", puntuacion:-50},
-        {nombre:"peladopro", puntuacion:500}
-    ]
+    const [jugadores, setJugadores] = useState([])
+
+    useEffect(() => {
+        fetch("http://localhost:3014/users").then(res => res.json()).then(data => setJugadores(data))
+    }, [])
+
     return (
         <div>
             <h1>Ranking</h1>
-            {prueba.map((jugador, index) => (
+            {jugadores.map((jugador, index) => (
                 <div key={index}>
                     <span>{index + 1}.{jugador.nombre}</span>
                     <span>{jugador.puntuacion} puntos</span>

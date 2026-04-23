@@ -18,7 +18,7 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
                     <div key={skin.id}>
                         <img src={`/${skin.id === "default" ? "gato" : `skin_${skin.id}`}_normal.png`} alt={skin.nombre} />
                         <p>{skin.nombre}</p>
-                        <p>{desbloq ? "Desbloqueado" : `${skin.puntosRequeridos} pts`}</p>
+                        <p>{desbloq ? "Desbloqueado" : `${skin.ptsReq} pts`}</p>
                         <button onClick={() => desbloq && onChangeSkin(skin.id)} disabled={!desbloq||activa}>{activa ? "Activa" : desbloq ? "Usar" : "Bloqueado"}</button>
                     </div>
                 )
