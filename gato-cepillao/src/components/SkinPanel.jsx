@@ -1,9 +1,13 @@
-export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVolver, onGaleria, onSubir }) {
-    const skins = [
-        {id:"default", nombre:"Default", ptsReq:0},
-        {id:"naranja", nombre:"Naranja", ptsReq:0},
-        {id:"negro", nombre:"Negro", ptsReq:100},
-    ]
+import { useEffect, useState } from "react"
+
+export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVolver, onGaleria }) {
+    const [skins, setSkins] = useState([])
+
+    useEffect(() => {
+        fetch("http://localhost:3014/skins")
+        .then(res => res.json())
+        .then(data => setSkins(data))
+    }, [])
     
     return (
         <div style={{ background: "#f0f0f0", minHeight: "100vh", fontFamily: "monospace" }}>
@@ -43,14 +47,14 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
                     {/* Grid skins */}
                     <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
                         {skins.map(skin => {
-                const desbloq = puntuacion >= skin.ptsReq
+                const desbloq = puntuacion >= skin.pts_req
                 const activa = skinActiva === skin.id
 
                 return(
                     <div key={skin.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", border: `1px solid ${activa ? "#000" : "#ccc"}`, padding: "12px", width: "140px", background: activa ? "#f0f0f0" : "#fff" }}>
                         <img src={`/${skin.id === "default" ? "gato" : `skin_${skin.id}`}_normal.png`} alt={skin.nombre} style={{ width: "80px", height: "80px", objectFit: "contain", opacity: desbloq ? 1 : 0.4 }}/>
                         <p style={{ fontSize: "12px", fontWeight: "bold" }}>{skin.nombre}</p>
-                        <p style={{ fontSize: "10px", color: "#555" }}>{desbloq ? "Desbloqueado" : `${skin.ptsReq} pts`}</p>
+                        <p style={{ fontSize: "10px", color: "#555" }}>{desbloq ? "Desbloqueado" : `${skin.pts_req} pts`}</p>
                         <button onClick={() => desbloq && onChangeSkin(skin.id)} disabled={!desbloq||activa} style={{ background: "#f0f0f0", border: "1px solid #999", padding: "3px 10px", fontFamily: "monospace", fontSize: "11px", cursor: desbloq && !activa ? "pointer" : "default", color: activa ? "#555" : "#000", width: "100%" }}>{activa ? "Activa" : desbloq ? "Usar" : "Bloqueado"}</button>
                     </div>
                 )
@@ -61,7 +65,6 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
 
                     <div style={{ width: "14px", background: "#f0f0f0", borderLeft: "1px solid #ccc", display: "flex", flexDirection: "column" }}>
                         <button onClick={onGaleria} style={{ background: "#f0f0f0", border: "1px solid #999", padding: "4px 18px", fontFamily: "monospace", fontSize: "12px", cursor: "pointer", color: "#000" }}>+ Mas Skins</button>
-            <button onClick={onSubir} style={{ background: "#f0f0f0", border: "1px solid #999", padding: "4px 18px", fontFamily: "monospace", fontSize: "12px", cursor: "pointer", color: "#000" }}>↑ Subir mi skin</button>
             <button onClick={onVolver} style={{ background: "#f0f0f0", border: "1px solid #999", padding: "4px 18px", fontFamily: "monospace", fontSize: "12px", cursor: "pointer", color: "#000" }}>← Volver</button>
                     </div>
 

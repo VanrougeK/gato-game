@@ -19,7 +19,8 @@ export default function Game({nombre, skinActiva, onGameOver}) {
     const puntosRef = useRef(0)
     const interAcariciaRef = useRef(null)
     const timeoutVolteoRef = useRef(null)
-    const interVolteoRef = useRef(null)
+    const timeoutSigVolteoRef = useRef(null)
+    const interVolteoRef = useRef(null) //
     const interPremiosRef = useRef(null)
 
     useEffect(() => {acariciandoRef.current = acariciando}, [acariciando])
@@ -27,7 +28,9 @@ export default function Game({nombre, skinActiva, onGameOver}) {
 
     const voltear = useCallback(() => {
         if(perdioRef.current) return
-        console.log("src gato:", `/${skinActiva === "default" ? "gato" : `skin_${skinActiva}`}_${gatoPose}.png`)
+        const espera = Math.random()*4000+3000
+        timeoutVolteoRef.current = setTimeout(() => {
+            if (perdioRef.current) return
 
         setPersoVolteando(true)
 
@@ -38,13 +41,17 @@ export default function Game({nombre, skinActiva, onGameOver}) {
             clearInterval(interAcariciaRef.current)
             return
         }
+
         timeoutVolteoRef.current = setTimeout(() => {
-            setPersoVolteando(false)}, dur_volteo)
-    }, [])
+            setPersoVolteando(false)
+            voltear()
+        }, dur_volteo)
+    }, espera)
+}, [])
 
     useEffect(() =>{
-        interVolteoRef.current = setInterval(voltear, intervalo_volteo)
-
+        voltear()
+        
         interPremiosRef.current = setInterval(() => {
             if(perdioRef.current) return
             const tipo = PREMIOS[Math.floor(Math.random()*PREMIOS.length)]
@@ -56,12 +63,12 @@ export default function Game({nombre, skinActiva, onGameOver}) {
             }, 3000)}, 2000)
 
             return () => {
-                clearInterval(interVolteoRef.current)
+                clearTimeout(timeoutSigVolteoRef.current)
+                clearTimeout(timeoutVolteoRef.current)
                 clearInterval(interPremiosRef.current)
                 clearInterval(interAcariciaRef.current)
-                clearTimeout(timeoutVolteoRef.current)
             }
-    }, [voltear])
+    }, [programarVolteo])
 
     /////////////Gameover
     useEffect(() => {
@@ -69,6 +76,7 @@ export default function Game({nombre, skinActiva, onGameOver}) {
             setTimeout(() => onGameOver(puntosRef.current), 1500)
         }
     }, [perdio, onGameOver])
+
     //////Acariciar gatito
     const iniciarAcaricia = () => {
         if(persoVolteando || perdioRef.current) return
@@ -94,43 +102,37 @@ export default function Game({nombre, skinActiva, onGameOver}) {
     }
 
     return (
-        <div style={{
-        position: "relative",
-        width: "800px",
-        height: "500px",
-        background: "lightblue",
-        margin: "0 auto"
-    }}>
+        <div style={{position: "relative", width: "800px", height: "500px", background: "lightblue", margin: "0 auto"}}>
 
             {/* puntos */}
-            <div>{nombre}: {Math.floor(puntos)} puntos</div>
+            <div style={{ position: "absolute", top: 10, left: 12, zIndex: 10, fontSize: "13px", fontFamily: "monospace" }}>
+                {nombre}: {Math.floor(puntos)} puntos
+                </div>
 
             {/* persona */}
-            <div>
-                <img src={persoVolteando ? "/persona_volteando.png" : "/persona_devuelta.png"} alt="persona" />
+            <div style={{ position: "absolute", right: 20, bottom: 0, width: "160px", height: "340px" }}>
+                <img src={persoVolteando ? "/persona_volteando.png" : "/persona_devuelta.png"} alt="persona" style={{ width: "100%", height: "100%", objectFit: "contain" }}/>
             </div>
 
             {/* Gatito */}
-            <div onMouseDown={iniciarAcaricia} onMouseUp={detenerAcaricia} onMouseLeave={detenerAcaricia} style={{cursor: persoVolteando ? "not-allowed":"pointer"}}>
-                <img style={{width:"200px", height:"200px", objectFit:"contain"}} src={`/${skinActiva === "default" ? "gato" : `skin_${skinActiva}`}_${gatoPose}.png`} alt="gato" />
+            <div onMouseDown={iniciarAcaricia} onMouseUp={detenerAcaricia} onMouseLeave={detenerAcaricia} style={{ position: "absolute", bottom: 20, left: "28%", width: "180px", height: "180px", cursor: persoVolteando ? "not-allowed" : "pointer", userSelect: "none" }}>
+                <img style={{ width: "100%", height: "100%", objectFit: "contain" }} src={`/${skinActiva === "default" ? "gato" : `skin_${skinActiva}`}_${gatoPose}.png`} alt="gato" />
             </div>
 
             {/* premios cayendo */}
             {premios.map(premio => (
-                <div key={premio.id} onClick={() => agarrarPremio(premio.id)} style={{cursor:"pointer", animation:"caer 3s linear forwards", position:"absolute", left:`${premio.x}%`, top:"10%", width:"60px", height:"60px", zIndex:5}}>
+                <div key={premio.id} onClick={() => agarrarPremio(premio.id)} style={{ position: "absolute", left: `${premio.x}%`, top: "5%", width: "55px", height: "55px", cursor: "pointer", animation: "caer 3s linear forwards", zIndex: 5 }}>
                     <img src={`/premio_${premio.tipo}.png`} alt={premio.tipo} style={{width:"100%", height:"100%"}} />
                 </div>
             ))}
 
-            <p>Holii {nombre}</p>
-            <p>Aca se juega</p>
-            <button onClick={() => onGameOver(0)}>Prueba gameover</button>
-            <style>{`
-                @keyframes caer {
-                    from { top: 5%; }
-                    to   { top: 90%; }
-                }
-            `}</style>
+            {perdio && (
+                <div style={{ position: "absolute", inset: 0, background: "rgba(240,240,240,0.9)", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 10, zIndex: 20 }}>
+                    <p style={{ fontSize: "28px", fontWeight: "bold", fontFamily: "monospace" }}>Te atraparon</p>
+                    <p style={{ fontSize: "14px", fontFamily: "monospace", color: "#555" }}>{Math.floor(puntos)} puntos</p>
+                </div>
+            )}
+            <style>{` @keyframes caer{ from{top:5%} to {top: 88%}}`}</style>
         </div>
     )
 }

@@ -4,11 +4,12 @@ export default function GameOver ({nombre, puntuacion, onReintentar, onRanking, 
 
     console.log("Gameover activado", nombre, puntuacion)
     useEffect(() =>{
-        fetch("http://localhost:3014/users", {
+        const token = localStorage.getItem("token")
+        fetch("http://localhost:3014/ranking/score", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({
-                    nombre: nombre, 
                     puntuacion: Math.floor(puntuacion)
             })
         })

@@ -3,8 +3,8 @@ import Game from "./components/Game"
 import GameOver from "./components/GameOver"
 import Ranking from "./components/Ranking"
 import SkinPanel from "./components/SkinPanel"
-import SkinGaleria from "./components/SkinGaleria"
-import SkinUpload from "./components/SkinUpload";
+import Login from "./components/login";
+import Register from "./components/Register";
 
 export default function App() {
   const [pantalla, setPantala] = useState("Nombre")
@@ -127,8 +127,6 @@ export default function App() {
         skinActiva={skinActiva} 
         onChangeSkin={setSkinActiva} 
         onVolver={() => setPantala("Gameover")}
-        onGaleria={() => setPantala("Galeria")}
-        onSubir={() => setPantala("Subir")}
         ></SkinPanel>
       )}
       {pantalla === "Galeria" && (

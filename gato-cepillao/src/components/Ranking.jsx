@@ -4,7 +4,7 @@ export default function Ranking({ onVolver }) {
   const [jugadores, setJugadores] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3014/users")
+    fetch("http://localhost:3014/ranking")
       .then((res) => res.json())
       .then((data) => setJugadores(data));
   }, []);
@@ -190,7 +190,7 @@ export default function Ranking({ onVolver }) {
                     }}
                   >
                     <span style={{ fontSize: "12px", fontFamily: "monospace" }}>
-                      {index + 1}.{jugador.nombre}
+                      {index + 1}.{jugador.username}
                     </span>
                     <span
                       style={{
@@ -199,7 +199,7 @@ export default function Ranking({ onVolver }) {
                         color: "#555",
                       }}
                     >
-                      {jugador.puntuacion} puntos
+                      {jugador.puntuacion_max} puntos
                     </span>
                   </div>
                 ))
