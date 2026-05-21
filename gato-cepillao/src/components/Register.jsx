@@ -26,7 +26,7 @@ export default function Register({ onVolver }) {
             setError("Minimo 4 caracteres")
             return
         } try {
-            const res = await fetch("http://localhost:3014/auth/register", {
+            const res = await fetch("https://back-gatitos.onrender.com/auth/register", {
                 method: "POST",
                 headers: {
                     "Content-Type":"application/json"

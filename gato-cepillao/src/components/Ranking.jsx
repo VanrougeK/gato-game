@@ -4,7 +4,7 @@ export default function Ranking({ onVolver }) {
   const [jugadores, setJugadores] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3014/ranking")
+    fetch("https://back-gatitos.onrender.com/ranking")
       .then((res) => res.json())
       .then((data) => {
         console.log(data)

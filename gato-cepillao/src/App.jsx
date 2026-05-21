@@ -365,7 +365,7 @@ export default function App() {
           onGameOver={async (pts) => {
             setPuntuacion(pts);
             try {
-              await fetch("http://localhost:3014/ranking/score", {
+              await fetch("https://back-gatitos.onrender.com/ranking/score", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

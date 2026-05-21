@@ -5,7 +5,7 @@ export default function GameOver ({nombre, puntuacion, onReintentar, onRanking, 
     console.log("Gameover activado", nombre, puntuacion)
     useEffect(() =>{
         const token = localStorage.getItem("token")
-        fetch("http://localhost:3014/ranking/score", {
+        fetch("https://back-gatitos.onrender.com/ranking/score", {
             method: "POST",
             headers: { "Content-Type": "application/json",
             "Authorization": `Bearer ${token}` },

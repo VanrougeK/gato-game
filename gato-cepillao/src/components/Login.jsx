@@ -10,7 +10,7 @@ export default function Login({onLogin, onRegister}) {
             setError("Completa todos los campos")
             return 
         }try {
-            const res = await fetch("http://localhost:3014/auth/login", {
+            const res = await fetch("https://back-gatitos.onrender.com/auth/login", {
                 method: "POST", 
                 headers: {
                     "Content-Type": "application/json"

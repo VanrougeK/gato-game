@@ -4,7 +4,7 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
     const [skins, setSkins] = useState([])
 
     useEffect(() => {
-        fetch("http://localhost:3014/skins")
+        fetch("https://back-gatitos.onrender.com/skins")
         .then(res => res.json())
         .then(data => {
             console.log(data)
