@@ -52,8 +52,8 @@ return(
                 )}
                 
                 <div style={{display:"flex", gap:"10px"}}>
-                    <button onClick={iniciarSesion} style={{padding:"6px 18px", border:"1px solid #999", background:"#f0f0f0", cursor:"pointer", fontFamily:"monospace"}}>Iniciar sesión</button>
-                    <button onClick={onRegister} style={{padding:"6px 18px", border:"1px solid #999", background:"#f0f0f0", cursor:"pointer", fontFamily:"monospace"}}>Crear cuenta</button>
+                    <button type="button" onClick={iniciarSesion} style={{padding:"6px 18px", border:"1px solid #999", background:"#f0f0f0", cursor:"pointer", fontFamily:"monospace"}}>Iniciar sesión</button>
+                    <button type="button" onClick={onRegister} style={{padding:"6px 18px", border:"1px solid #999", background:"#f0f0f0", cursor:"pointer", fontFamily:"monospace"}}>Crear cuenta</button>
                 </div>
             </div>
 

@@ -6,7 +6,18 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
     useEffect(() => {
         fetch("http://localhost:3014/skins")
         .then(res => res.json())
-        .then(data => setSkins(data))
+        .then(data => {
+            console.log(data)
+            if(Array.isArray(data)) {
+                setSkins(data)
+            } else {
+                setSkins([])
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            setSkins([])
+        })
     }, [])
     
     return (
@@ -47,14 +58,14 @@ export default function SkinPanel ({ puntuacion, skinActiva, onChangeSkin, onVol
                     {/* Grid skins */}
                     <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
                         {skins.map(skin => {
-                const desbloq = puntuacion >= skin.pts_req
+                const desbloq = puntuacion >= skin.requisito_puntos
                 const activa = skinActiva === skin.id
 
                 return(
                     <div key={skin.id} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", border: `1px solid ${activa ? "#000" : "#ccc"}`, padding: "12px", width: "140px", background: activa ? "#f0f0f0" : "#fff" }}>
                         <img src={`/${skin.id === "default" ? "gato" : `skin_${skin.id}`}_normal.png`} alt={skin.nombre} style={{ width: "80px", height: "80px", objectFit: "contain", opacity: desbloq ? 1 : 0.4 }}/>
                         <p style={{ fontSize: "12px", fontWeight: "bold" }}>{skin.nombre}</p>
-                        <p style={{ fontSize: "10px", color: "#555" }}>{desbloq ? "Desbloqueado" : `${skin.pts_req} pts`}</p>
+                        <p style={{ fontSize: "10px", color: "#555" }}>{desbloq ? "Desbloqueado" : `${skin.requisito_puntos} pts`}</p>
                         <button onClick={() => desbloq && onChangeSkin(skin.id)} disabled={!desbloq||activa} style={{ background: "#f0f0f0", border: "1px solid #999", padding: "3px 10px", fontFamily: "monospace", fontSize: "11px", cursor: desbloq && !activa ? "pointer" : "default", color: activa ? "#555" : "#000", width: "100%" }}>{activa ? "Activa" : desbloq ? "Usar" : "Bloqueado"}</button>
                     </div>
                 )

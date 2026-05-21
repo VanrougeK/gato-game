@@ -6,8 +6,20 @@ export default function Ranking({ onVolver }) {
   useEffect(() => {
     fetch("http://localhost:3014/ranking")
       .then((res) => res.json())
-      .then((data) => setJugadores(data));
-  }, []);
+      .then((data) => {
+        console.log(data)
+
+        if (Array.isArray(data)) {
+        setJugadores(data)
+      }else {
+        setJugadores([])
+      }
+      })
+    .catch((err) => {
+      console.log(err)
+      setJugadores([])
+    })
+  }, [])
 
   return (
     <div
@@ -199,7 +211,7 @@ export default function Ranking({ onVolver }) {
                         color: "#555",
                       }}
                     >
-                      {jugador.puntuacion_max} puntos
+                      {jugador.highscore} puntos
                     </span>
                   </div>
                 ))
