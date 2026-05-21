@@ -7,7 +7,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 
 export default function App() {
-  const [pantalla, setPantala] = useState("Nombre");
+  const [pantalla, setPantala] = useState("Login");
   const [namePlayer, setNamePlayer] = useState("");
   const [puntuacion, setPuntuacion] = useState(0);
   const [skinActiva, setSkinActiva] = useState("default");
