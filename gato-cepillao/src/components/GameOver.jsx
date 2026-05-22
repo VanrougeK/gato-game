@@ -5,6 +5,8 @@ export default function GameOver ({nombre, puntuacion, onReintentar, onRanking, 
     console.log("Gameover activado", nombre, puntuacion)
     useEffect(() =>{
         const token = localStorage.getItem("token")
+        console.log("Token: ", token)
+
         fetch("https://back-gatitos.onrender.com/ranking/score", {
             method: "POST",
             headers: { "Content-Type": "application/json",
@@ -13,6 +15,9 @@ export default function GameOver ({nombre, puntuacion, onReintentar, onRanking, 
                     puntuacion: Math.floor(puntuacion)
             })
         })
+        .then(res => res.json())
+        .then(data => console.log("Respuesta score:", data))
+        .catch(err => console.log("Error score:", err))
     }, [])
 
     return (
