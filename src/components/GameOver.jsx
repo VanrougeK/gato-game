@@ -2,24 +2,6 @@ import { useEffect } from "react"
 
 export default function GameOver ({nombre, puntuacion, onReintentar, onRanking, onSkins}) {
 
-    console.log("Gameover activado", nombre, puntuacion)
-    useEffect(() =>{
-        const token = localStorage.getItem("token")
-        console.log("Token: ", token)
-
-        fetch("https://back-gatitos.onrender.com/ranking/score", {
-            method: "POST",
-            headers: { "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` },
-                body: JSON.stringify({
-                    puntuacion: Math.floor(puntuacion)
-            })
-        })
-        .then(res => res.json())
-        .then(data => console.log("Respuesta score:", data))
-        .catch(err => console.log("Error score:", err))
-    }, [])
-
     return (
         <div style={{ background: "#f0f0f0", minHeight: "100vh", fontFamily: "monospace" }}>
             <div style={{ margin: "20px auto", width: "700px", border: "1px solid #999", background: "#f0f0f0" }}>

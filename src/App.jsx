@@ -408,7 +408,7 @@ export default function App() {
             setSkinActiva(id)
             setSkinArchivo(archivo)
           }}
-          onVolver={() => setPantala("Gameover")}
+          onVolver={() => setPantala("Nombre")}
           onGaleria={() => setPantala("Nombre")}
         ></SkinPanel>
       )}
