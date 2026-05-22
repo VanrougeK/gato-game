@@ -93,15 +93,11 @@ export default function Game({ nombre, skinActiva, onGameOver }) {
       perdioRef.current = true;
       setPerdio(true);
       setFlashRojo(true);
-      clearInterval(interAcariciaRef.current);
       return;
     }
-    setAcariciando(true);
     setGatoPose("feli");
-    interAcariciaRef.current = setInterval(() => {
-      if (perdioRef.current) return;
-      setPuntos((prev) => prev + puntos_per_sec / 10);
-    }, 100);
+    setPuntos((prev) => prev + 2);
+    setTimeout(() => setGatoPose("normal"), 150)
   };
 
   ////No acariciando
