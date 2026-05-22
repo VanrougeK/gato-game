@@ -134,7 +134,7 @@ export default function Game({ nombre, skinActiva, onGameOver }) {
         </div>
 
         <div onMouseDown={iniciarAcaricia} onMouseUp={detenerAcaricia} onMouseLeave={detenerAcaricia} onTouchStart={(e) => { e.preventDefault(); iniciarAcaricia() }} onTouchEnd={(e) => { e.preventDefault(); detenerAcaricia() }} style={{ position: "absolute", bottom: "3%", left: "28%", width: "clamp(110px, 22%, 210px)", height: "clamp(200px, 44%, 440px)", cursor: perdio ? "default" : "pointer", userSelect: "none", touchAction: "none", filter: acariciando ? "drop-shadow(0 0 8px #ffd700)" : "none", transition: "filter 0.15s" }}>
-            <img style={{ width: "100%", height: "100%", objectFit: "contain" }} src={`/${skinActiva === "default" ? "gato" : `skin_${skinActiva}`}_${gatoPose}.png`} alt="gato" draggable={false}/>
+            <img style={{ width: "100%", height: "100%", objectFit: "contain" }} src={`/${skinActiva}_${gatoPose}.png`} alt="gato" draggable={false}/>
         </div>
 
         {premios.map(premio => (
