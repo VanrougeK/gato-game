@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const PREMIOS = ["gato", "pescado", "Pan", "flan", "fresa"];
+const PREMIOS = ["gato", "pescado", "pan", "flan", "fresa"];
 const dur_volteo = 1500;
 const puntos_per_sec = 10;
 const puntos_premio = 25;
