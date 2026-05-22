@@ -11,6 +11,7 @@ export default function App() {
   const [namePlayer, setNamePlayer] = useState("");
   const [puntuacion, setPuntuacion] = useState(0);
   const [skinActiva, setSkinActiva] = useState("default");
+  const [skinArchivo, setSkinArchivo] = useState("gato")
 
   const handleLogin = (usuario) => {
     setNamePlayer(usuario);
@@ -361,7 +362,7 @@ export default function App() {
       {pantalla === "Juego" && (
         <Game
           nombre={namePlayer}
-          skinActiva={skinActiva}
+          skinActiva={skinArchivo}
           onGameOver={async (pts) => {
             setPuntuacion(pts);
             try {
@@ -369,6 +370,7 @@ export default function App() {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
+                  "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
                 body: JSON.stringify({
                   usuario: namePlayer,
@@ -402,7 +404,10 @@ export default function App() {
         <SkinPanel
           puntuacion={puntuacion}
           skinActiva={skinActiva}
-          onChangeSkin={setSkinActiva}
+          onChangeSkin={(id, archivo) => {
+            setSkinActiva(id)
+            setSkinArchivo(archivo)
+          }}
           onVolver={() => setPantala("Gameover")}
           onGaleria={() => setPantala("Nombre")}
         ></SkinPanel>
